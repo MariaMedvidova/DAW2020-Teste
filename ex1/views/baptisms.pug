@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  p Baptisms:
+  for baptism in baptisms
+    .card.mb-3
+      .card-body
+        h5.card-title= baptism.title
+        p.card-text Date: 
+                  = baptism.date
+        p.card-text Ref: 
+                  = baptism.ref
+        p.card-text _id: 
+                  = baptism._id
