@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
 
 var baptismSchema = new mongoose.Schema({
+    _id: String,
     date: {
         type: String
     },
@@ -13,6 +14,11 @@ var baptismSchema = new mongoose.Schema({
     href: {
         type: String
     },
+    name: String,
+    father: String,
+    mother: String,
+    registerNumber: String,
+    year: String
 });
 
 module.exports = mongoose.model('baptism', baptismSchema)

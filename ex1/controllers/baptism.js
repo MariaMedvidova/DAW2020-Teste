@@ -15,82 +15,31 @@ module.exports.lookUpById = id  => {
         .exec()
 }
 
-// module.exports.listWithNumberActors = () =>{
-//     return Movie
-//         .aggregate([{
-//         $project: {
-//         id: "$id",
-//         title: "$title",
-//         NumberOfActor: {
-//               $size: "$cast"
-//             }
-//           }
-//         }])
-//         .exec()
-// }
+//Returns only a list with the names of individuals baptized alphabetically;
+module.exports.listBaptized = () =>{
+  return Baptism
+    .distinct('name')
+    .exec()
+}
 
-// module.exports.listOfActors = () => {
-//     return Movie
-//         .aggregate([{$unwind: "$cast"},{$group: {_id: "$cast"}},{$sort: {_id: 1}}])
-//         .exec()
-// }
+//Returns a list of pairs, year and number of baptisms in that year.
+module.exports.listnumberPerYear = () =>{
+  return Baptism
+   .aggregate( [
+    { $group: { _id: "$year", countOfBaptisms: { $sum: 1 } } }
+ ] )
+}
 
-// module.exports.listActorMovie = () => {
-//     return Movie.aggregate([
-//         {
-//           $unwind: "$cast"
-//         },
-//         {
-//           $group: {
-//             _id: "$cast",
-//             films: {
-//               "$addToSet": {
-//                 "id": "$id",
-//                 "title": "$title"
-//               }
-//             }
-//           }
-//         }
-//       ])
-//       .exec()
-// }
+module.exports.listParents = () =>{
+  return Baptism
+  .aggregate([
+    { $project : { _id : 1, father : 1, mother: 1 } }]
+  )
+    .exec()
+}
 
-// module.exports.listMovieGenre = () => {
-//     return Movie.aggregate([
-//         {
-//           $unwind: "$genres"
-//         },
-//         {
-//           $group: {
-//             _id: "$genres",
-//             films: {
-//               "$addToSet": {
-//                 "id": "$id",
-//                 "title": "$title"
-//               }
-//             }
-//           }
-//         }
-//       ])
-//       .exec()
-// }
-
-// module.exports.newMovie = (movie) => {
-//     var newPost = new Movie
-//     ({
-//         content: movie.content
-//     })
-//     return newPost.save()
-// }
-
-// module.exports.delete = id =>{
-//     return Movie
-//         .findByIdAndDelete(id)
-//         .exec()
-// }
-
-// module.exports.lookUpByMyId = id  => {
-//     return Movie
-//         .findOne({id: id})
-//         .exec()
-// }
+module.exports.listByYear = (ano) =>{
+  return Baptism
+  .find({year: ano})
+  .exec()
+}

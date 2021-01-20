@@ -8,56 +8,36 @@ var router = express.Router();
 var axios = require('axios')
 
 
-var token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMTExMjIyMyIsImxldmVsIjoyLCJlbnRpZGFkZSI6ImVudF9BM0VTIiwiZW1haWwiOiJwcmkyMDIwQHRlc3RlLnVtaW5oby5wdCIsImlhdCI6MTYxMTEzOTk0NCwiZXhwIjoxNjExMTY4NzQ0fQ.dB7sC-jGsp4RHDgDdXU0Jzdsj2zL-o9dX-QCB9b6ETuRG_pbYtsbYpDphEyCteBC5-cwdRaQN7lZegk5VT_eKysdeyxlLvrBA3v4bMAX-Ir96WRE0PiKPAo_M02rOxC7pYiMcIVY7tOtDEttDDc-5-zk2LEiuCl9slVeMP3uEEu3Q4nQjnI9VtEWesGqg7Uy-6AxGDgXSjVRpVult6x9uEuItjym3wTDOFFthHuVd1G-zOLJSaBbzTPnpklVZPM4gSoVYXtTjvv89pqSvUhqrR6P1B3iq58puDQRGGB_c2PEcrHg-k3swlT_ANKMGsKh6xsqHGGzJqv5f734QWgVuQ"
+var token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMDgxMGM2NDFhYmQ1NDU0MDZkZmRkMSIsImxldmVsIjoyLCJlbnRpZGFkZSI6ImVudF9BM0VTIiwiZW1haWwiOiJkYXcyMDIwQHRlc3RlLnVtaW5oby5wdCIsImlhdCI6MTYxMTE1ODU0OSwiZXhwIjoxNjExMTg3MzQ5fQ.ntgJmLbKuSJs0zinS4hxE2vEUt-77SZrFW0OrALEKa37XC83dAmUFzkAs8Jfl2bheQMgvS0Ig2wlNeW8Zkz3DiQFC670yYmWyqylw6haEKd80Fr0KqVaGdvFP2_E1yJVTJTWR3gaWJTpeJnm9cjGw4tQsHV2b2Oz1g_c4RD8cEXYA0PTcm5WxM9qw24CwlD3UV_8YI31KJMf0j8Yk_wDzwiOtw2353lWa3XUbqQcNSWrReheA8wBqxcdKFBG9Lua06WXLpWBe89dRut_OxCQGLEFaar81oido6qLZ48Y3x0tCV68YTRd8rgfFWSL13fv18nYF2mvA1bJi52HUQNvIA"
 
-/* GET list 1 class entite. */
+//GET home page
 router.get('/', (req, res) => {
+  res.render('home')
+});
+
+// GET list 1 class entite.
+router.get('/c1', (req, res) => {
   axios.get('http://clav-api.di.uminho.pt/v2/classes?nivel=1&token=' + token)
     .then( data => res.render('entities', {entities:data.data}))
     .catch(error => res.render('error', {error:error}))
 });
 
-// get list second third ... class entite
+// GET all the index terms with their information fields are listed in a 
+//table: term, class id to which it belongs and class title 
+//(the id and title must be a link to the class page);
+router.get('/term', (req, res) => {
+  axios.get('http://clav-api.di.uminho.pt/v2/termosIndice?token=' + token)
+    .then( data => res.render('term', {terms:data.data}))
+    .catch(error => res.render('error', {error:error}))
+});
+
+// get list of class with code
 router.get('/c/:code', (req,res)=>{
   const {code} = req.params;
-  axios.get('http://clav-api.di.uminho.pt/v2/classes/c' + code +'/descendencia?token=' + token)
-    .then( list => {
-      axios.get('http://clav-api.di.uminho.pt/v2/classes/c' + code +'?token=' + token)
-      .then(info => {
-        res.render('classEntities', {entities:list.data, info: info.data})
-      })
-  })
+  axios.get('http://clav-api.di.uminho.pt/v2/classes/c' + code +'?token=' + token)
+    .then( data => res.render('classEntities', {data:data.data}))
     .catch(error => res.render('error', {error:error}))
 })
-
-// router.get('/tipologia/:id', function(req, res, next) {
-
-//   axios.get('http://clav-api.dglab.gov.pt/api/tipologias/'+ req.params.id +'?info=completa&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1Nzg4NjAwNTQsImV4cCI6MTU4MTQ1MjA1NH0.HIlH4_Ao6504qaLhhbZ2_OtDzaZaG5FeYy-Yc2d9lwQ')
-//     .then(dados => {
-//       axios.get('http://clav-api.dglab.gov.pt/api/tipologias/'+ req.params.id +'/elementos?info=completa&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1Nzg4NjAwNTQsImV4cCI6MTU4MTQ1MjA1NH0.HIlH4_Ao6504qaLhhbZ2_OtDzaZaG5FeYy-Yc2d9lwQ')
-//         .then(entidades => {
-//           res.render('info-tipologia', { lista: dados.data, ents: entidades.data })
-//         })
-//         .catch(erro => {
-//           res.render('error',{error: erro})
-//         })
-//     })
-//     .catch(erro => {
-//       res.render('error',{error: erro})
-//     })
-  
-// });
-
-// router.get('/entidades/:id', function(req, res, next) {
-//   axios.get('http://clav-api.dglab.gov.pt/api/entidade/'+ req.params.id +'?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1Nzg4NjAwNTQsImV4cCI6MTU4MTQ1MjA1NH0.HIlH4_Ao6504qaLhhbZ2_OtDzaZaG5FeYy-Yc2d9lwQ')
-//     .then(dados => {
-//       res.render('info-entidade', { lista: dados.data})
-//     })
-//     .catch(erro => {
-//       res.render('error',{error: erro})
-//     })
-  
-// });
 
 
 module.exports = router;

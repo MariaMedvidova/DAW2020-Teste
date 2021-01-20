@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1 The index terms
+    .card.mb-3
+      .card-body
+        table.table
+            tr
+                th(scope="col") Term
+                th(scope="col") Class ID
+                th(scope="col") Class title
+            for term in terms
+                tr
+                    td= term.termo
+                    td= term.idClasse
+                    td= term.tituloClasse

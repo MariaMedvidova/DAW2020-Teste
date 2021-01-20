@@ -1,11 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Entity of first class
+  h1 Entity of first class
   for entity in entities
     .card.mb-3
       .card-body
         h5.card-title= entity.titulo
         p.card-text Code: 
-                  a(href='/api/c/' + entity.codigo)= entity.codigo
+                  a(href='/c/' + entity.codigo)= entity.codigo

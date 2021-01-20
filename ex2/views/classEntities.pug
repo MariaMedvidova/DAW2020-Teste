@@ -1,13 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p= info.titulo
-  p Status:
-    = info.status
-  for entity in entities
-    .card.mb-3
-      .card-body
-        h5.card-title= entity.titulo
-        p.card-text Code: 
-                  a(href='/api/c/' + entity.codigo)= entity.codigo
+  h1= data.titulo
+  p= data.status
+  -if (data.filhos.length > 0)
+    for filho in data.filhos
+      .card.mb-3
+        .card-body
+        -if (filho)
+          h5.card-title= filho.titulo
+          p.card-text Code: 
+                  a(href='/c/' + filho.codigo)= filho.codigo

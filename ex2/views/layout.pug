@@ -8,15 +8,8 @@ html
   body.d-flex.flex-column.vh-100
     nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.sticky-top
       .container-fluid
-        a.navbar-brand(href='/api')
+        a.navbar-brand(href='/')
           i.fa.fa-home.fa-lg
-        button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar")
-          span.navbar-toggler-icon
-        div(class="collapse navbar-collapse", id="myNavbar")
-          .navbar-nav
-            a.nav-link(href='/user') USERS
-            a.nav-link(href='/resource') RESOURCES
-            a.nav-link(href='/register') REGISTER
     main.container
       block content
     footer.footer.bg-dark.py-3.mt-auto
